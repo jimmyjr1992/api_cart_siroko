@@ -1,5 +1,11 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+#controllers:
+#    resource:
+#        path: ../src/Infrastructure/Controller/
+#        namespace: App\Infrastructure\Controller
+#    type: attribute
+
+# Test de controlador
+cart-item-test:
+    path:       /api/cart-item-test
+    controller: App\Infrastructure\Controller\CartItemController::index
+    methods:    GET
