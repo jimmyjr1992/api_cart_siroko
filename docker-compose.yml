@@ -1,0 +1,48 @@
+services:
+  nginx:
+    build: './docker/nginx/'
+    image: 'nginx:latest'
+    depends_on:
+      - php
+      - mysql
+    ports:
+      - "8081:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app
+
+  php:
+    build: './docker/php'
+    container_name: 'php'
+    expose:
+      - 9000
+    volumes:
+      - './:/var/www/html'
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - app
+
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'toor'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'siroko_cart'
+      MYSQL_USER: 'siroko'
+      MYSQL_PASSWORD: 'siroko'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - 'db_data:/var/lib/mysql'
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+volumes:
+  db_data:
+    driver: local
