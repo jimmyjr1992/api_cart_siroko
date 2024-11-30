@@ -2,6 +2,8 @@
 
 namespace App\Domain\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Infrastructure\Repository\CartItemRepository::class)]
@@ -23,6 +25,17 @@ class CartItem
 
     #[ORM\Column]
     private ?float $total = null;
+
+    /**
+     * @var Collection<int, Cart>
+     */
+    #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'cartItems')]
+    private Collection $carts;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -73,6 +86,33 @@ class CartItem
     public function setTotal(float $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->addCartItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            $cart->removeCartItem($this);
+        }
 
         return $this;
     }
