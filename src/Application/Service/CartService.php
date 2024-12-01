@@ -8,8 +8,8 @@ use App\Domain\Repository\CartRepositoryInterface;
 use App\Domain\Service\CartServiceInterface;
 use App\Domain\ValueObject\CartId;
 use Exception;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Domain\Model\Cart\CartStatus;
 
 class CartService implements CartServiceInterface
 {
@@ -69,7 +69,7 @@ class CartService implements CartServiceInterface
     private function newCart(): Cart
     {
         $cart = new Cart();
-        $cart->setStatus(0);
+        $cart->setStatus(CartStatus::OPEN);
 
         try {
             $this->cartRepository->save($cart);
@@ -147,6 +147,9 @@ class CartService implements CartServiceInterface
         /*if (!$paymentSuccessful) {
             throw new Exception("Something wrong with the payment.");
         }*/
+
+        $cart->setStatus(CartStatus::PAID);
+        $this->cartRepository->save($cart);
     }
 
     /**
