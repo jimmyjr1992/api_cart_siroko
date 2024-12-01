@@ -3,6 +3,9 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Model\Cart;
+use App\Domain\Model\CartItem;
+use App\Domain\ValueObject\CartId;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 interface CartRepositoryInterface
 {
@@ -14,9 +17,9 @@ interface CartRepositoryInterface
 
     /**
      * @param Cart $cart
-     * @return void
+     * @return Cart
      */
-    public function save(Cart $cart): void;
+    public function save(Cart $cart): Cart;
 
     /**
      * @param Cart $cart

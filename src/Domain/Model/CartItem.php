@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Infrastructure\Repository\CartItemRepository::class)]
-class CartItem
+class CartItem implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -115,5 +115,16 @@ class CartItem
         }
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'productId' => $this->productId,
+            'quantity' => $this->quantity,
+            'price' => $this->price,
+            'total' => $this->total,
+        ];
     }
 }

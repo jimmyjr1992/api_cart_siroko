@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repository;
 use App\Domain\Model\CartItem;
 use App\Domain\Repository\CartItemRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,27 +13,52 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CartItemRepository extends ServiceEntityRepository implements CartItemRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $entityManager;
+
+    /**
+     * @param ManagerRegistry $registry
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, CartItem::class);
+        $this->entityManager = $entityManager;
     }
 
+    /**
+     * Recupera el CartItem de base de datos a partir de su ID
+     *
+     * @param int $id
+     * @return CartItem|null
+     */
     public function findById(int $id): ?CartItem
     {
-        die('findById');
-        // TODO: Implement find() method.
+        return $this->find($id);
     }
 
-    public function save(CartItem $cartItem): void
+    /**
+     * Guarda en base de datos un objeto CartItem
+     *
+     * @param CartItem $cartItem
+     * @return CartItem
+     */
+    public function save(CartItem $cartItem): CartItem
     {
-        die('save');
-        // TODO: Implement save() method.
+        $this->entityManager->persist($cartItem);
+        $this->entityManager->flush();
+
+        return $cartItem;
     }
 
+    /**
+     * Borra de base de datos un CartItem a partir del propio objeto CartItem
+     *
+     * @param CartItem $cartItem
+     * @return void
+     */
     public function delete(CartItem $cartItem): void
     {
-        die('delete');
-        // TODO: Implement delete() method.
+        $this->entityManager->remove($cartItem);
+        $this->entityManager->flush();
     }
-
 }
