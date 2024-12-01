@@ -42,4 +42,14 @@ interface CartServiceInterface
      * @return string
      */
     public function getResponseCart(): string;
+
+    /**
+     * @return string
+     */
+    public function getResponsePayment(): string;
+
+    /**
+     * @return void
+     */
+    public function clearCart(): void;
 }
