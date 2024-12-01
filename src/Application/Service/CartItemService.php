@@ -68,6 +68,24 @@ class CartItemService implements CartItemServiceInterface
     }
 
     /**
+     * Elimina un CartItem del carrito
+     *
+     * @param array $data
+     * @return void
+     * @throws Exception
+     */
+    public function deleteCartItemFromData(array $data): void
+    {
+        if (!$this->validateDeleteData($data)) {
+            throw new Exception("Invalid data");
+        }
+
+        $cartItem = $this->cartItemRepository->findById($data['cart_item_id']);
+
+        $this->cartItemRepository->delete($cartItem);
+    }
+
+    /**
      * Valida que el array contiene los datos necesarios para construir el CartItem
      *
      * @param array $data
@@ -103,6 +121,21 @@ class CartItemService implements CartItemServiceInterface
         }
 
         if (!isset($data['quantity']) || !is_int($data['quantity'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Valida que el array contiene los datos necesarios para eliminar el CartItem
+     *
+     * @param array $data
+     * @return bool
+     */
+    private function validateDeleteData(array $data): bool
+    {
+        if (!isset($data['cart_item_id']) || !is_int($data['cart_item_id'])) {
             return false;
         }
 
