@@ -28,17 +28,39 @@ class CartItemService implements CartItemServiceInterface
      */
     public function createCartItemFromData(array $data): CartItem
     {
-        if (!$this->validateData($data)) {
+        if (!$this->validateCreateData($data)) {
             throw new Exception("Invalid data");
         }
 
         $cartItem = new CartItem();
-        $totalPrice = $this->getTotalPrice($data);
 
         $cartItem->setProductId($data['product_id']);
         $cartItem->setQuantity($data['quantity']);
         $cartItem->setPrice($data['price']);
-        $cartItem->setTotal($totalPrice);
+        $this->setTotalPrice($cartItem);
+
+        $this->cartItemRepository->save($cartItem);
+
+        return $cartItem;
+    }
+
+    /**
+     * Actualiza un CartItem a partir de un array
+     *
+     * @param array $data
+     * @return CartItem
+     * @throws Exception
+     */
+    public function updateCartItemFromData(array $data): CartItem
+    {
+        if (!$this->validateUpdateData($data)) {
+            throw new Exception("Invalid data");
+        }
+
+        $cartItem = $this->cartItemRepository->findById($data['cart_item_id']);
+
+        $cartItem->setQuantity($data['quantity']);
+        $this->setTotalPrice($cartItem);
 
         $this->cartItemRepository->save($cartItem);
 
@@ -51,7 +73,7 @@ class CartItemService implements CartItemServiceInterface
      * @param array $data
      * @return bool
      */
-    private function validateData(array $data): bool
+    private function validateCreateData(array $data): bool
     {
         if (!isset($data['product_id']) || !is_int($data['product_id'])) {
             return false;
@@ -69,14 +91,34 @@ class CartItemService implements CartItemServiceInterface
     }
 
     /**
-     * Obtiene el precio total, a partir del precio y la cantidad del articulo
+     * Valida que el array contiene los datos necesarios para actualizar el CartItem
      *
      * @param array $data
-     * @return float
+     * @return bool
      */
-    private function getTotalPrice(array $data): float
+    private function validateUpdateData(array $data): bool
     {
-        $totalPrice = $data['price'] * $data['quantity'];
-        return round($totalPrice);
+        if (!isset($data['cart_item_id']) || !is_int($data['cart_item_id'])) {
+            return false;
+        }
+
+        if (!isset($data['quantity']) || !is_int($data['quantity'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Obtiene el precio total, a partir del precio y la cantidad del articulo
+     *
+     * @param CartItem $cartItem
+     * @return void
+     */
+    private function setTotalPrice(CartItem $cartItem): void
+    {
+        $totalPrice = $cartItem->getPrice() * $cartItem->getQuantity();
+
+        $cartItem->setTotal($totalPrice);
     }
 }
