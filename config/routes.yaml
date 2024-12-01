@@ -15,3 +15,9 @@ delete-item:
     path: /api/delete_item
     controller: App\Infrastructure\Controller\DeleteItemController
     methods: DELETE
+
+# obtiene el numero total de items
+get-total-items:
+    path: /api/get_total_items
+    controller: App\Infrastructure\Controller\GetTotalItemsController
+    methods: GET
