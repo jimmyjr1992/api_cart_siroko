@@ -39,7 +39,7 @@ class CartItemValidator
             return false;
         }
 
-        if (!isset($data['quantity']) || !is_int($data['quantity'])) {
+        if (!isset($data['quantity']) || !is_int($data['quantity']) || $data['quantity'] <= 0) {
             return false;
         }
 

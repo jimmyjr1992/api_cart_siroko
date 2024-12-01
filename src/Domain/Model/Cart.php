@@ -44,6 +44,10 @@ class Cart
 
     public function setUserId(?int $userId): static
     {
+        if ($userId !== null && $userId < 0) {
+            throw new \TypeError("UserId should be a integer greater than 0 or null.");
+        }
+
         $this->userId = $userId;
 
         return $this;
