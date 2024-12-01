@@ -14,9 +14,9 @@ interface CartItemRepositoryInterface
 
     /**
      * @param CartItem $cartItem
-     * @return void
+     * @return CartItem
      */
-    public function save(CartItem $cartItem): void;
+    public function save(CartItem $cartItem): CartItem;
 
     /**
      * @param CartItem $cartItem

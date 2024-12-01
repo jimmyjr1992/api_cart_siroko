@@ -4,9 +4,21 @@ namespace App\Domain\Service;
 
 use App\Domain\ValueObject\CartId;
 use App\Domain\Model\CartItem;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 interface CartServiceInterface
 {
+    /**
+     * @param SessionInterface $session
+     * @return void
+     */
+    public function getSessionCart(SessionInterface $session): void;
+
+    /**
+     * @return CartId
+     */
+    public function getCurrentCartId(): CartId;
+
     /**
      * @param CartId $cartId
      * @param CartItem $cartItem

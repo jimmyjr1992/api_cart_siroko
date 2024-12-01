@@ -6,22 +6,35 @@ use InvalidArgumentException;
 
 final class CartId
 {
-    private string $value;
+    private int $value;
 
-    private function __construct(string $value)
+    /**
+     * @param int $value
+     */
+    public function __construct(int $value)
     {
-        if (empty($value) || !ctype_digit($value)) {
+        if (empty($value)) {
             throw new InvalidArgumentException("Invalid Cart Id");
         }
 
         $this->value = $value;
     }
 
-    public function getValue(): string
+    /**
+     * Devuelve el valor en bruto
+     *
+     * @return int
+     */
+    public function getValue(): int
     {
         return $this->value;
     }
 
+    /**
+     * Devuelve el valor en formato string
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->value;
