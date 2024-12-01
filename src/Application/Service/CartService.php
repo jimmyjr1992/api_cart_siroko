@@ -124,10 +124,29 @@ class CartService implements CartServiceInterface
         return $totalItems;
     }
 
+    /**
+     * @param CartId $cartId
+     * @return void
+     * @throws Exception
+     */
     public function checkoutCart(CartId $cartId): void
     {
-        die('checkoutCart');
-        // TODO: Implement checkoutCart() method.
+        $cart = $this->cartRepository->findById($this->currentCartId->__toString());
+        $cartItems = $cart->getCartItems()->getValues();
+
+        $totalPayment = 0;
+
+        foreach ($cartItems as $cartItem) {
+            $totalPayment += $cartItem->getTotal();
+        }
+
+        // Aqui se mandaria a una pasarela de pago, supongamos que es OK el pago
+        $paymentSuccessful = true;
+
+        //En caso negativo se gestionaria en nuestro caso simpre va a ser autorizada
+        /*if (!$paymentSuccessful) {
+            throw new Exception("Something wrong with the payment.");
+        }*/
     }
 
     /**
@@ -141,5 +160,28 @@ class CartService implements CartServiceInterface
         $cartItems = $cart->getCartItems()->getValues();
 
         return json_encode($cartItems);
+    }
+
+    /**
+     * @return string
+     */
+    public function getResponsePayment(): string
+    {
+        $cart = $this->cartRepository->findById($this->currentCartId->__toString());
+        $cartItems = $cart->getCartItems()->getValues();
+
+        return json_encode($cartItems);
+    }
+
+    /**
+     * Vacia el carrito - ejemplo de como se podrian añadir nuevas funciones de manera sencilla
+     *
+     * @return void
+     */
+    public function clearCart(): void
+    {
+        $cart = $this->cartRepository->findById($this->currentCartId->__toString());
+        $cart->getCartItems()->clear();
+        $this->cartRepository->save($cart);
     }
 }
