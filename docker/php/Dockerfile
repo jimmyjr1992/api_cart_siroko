@@ -4,6 +4,7 @@ LABEL authors="Miguel Angel Garcia Martin"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
+ENV PHP_IDE_CONFIG="serverName=localhost"
 
 # Instala las extensiones PHP necesarias
 RUN apt-get update && apt-get install -y \

@@ -1,5 +1,5 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+# Añadir item al carrito
+add-item:
+    path: /api/add_item
+    controller: App\Infrastructure\Controller\AddItemController
+    methods: PUT
