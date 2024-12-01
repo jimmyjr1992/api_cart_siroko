@@ -15,6 +15,7 @@ class CartItemService implements CartItemServiceInterface
 
     /**
      * @param CartItemRepositoryInterface $cartItemRepository
+     * @param CartItemValidator $cartItemValidator
      */
     public function __construct(CartItemRepositoryInterface $cartItemRepository, CartItemValidator $cartItemValidator)
     {

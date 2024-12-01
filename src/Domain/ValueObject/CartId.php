@@ -13,7 +13,7 @@ final class CartId
      */
     public function __construct(int $value)
     {
-        if (empty($value)) {
+        if (empty($value) || $value < 0) {
             throw new InvalidArgumentException("Invalid Cart Id");
         }
 
