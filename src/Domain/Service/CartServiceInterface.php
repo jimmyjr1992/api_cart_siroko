@@ -31,13 +31,6 @@ interface CartServiceInterface
      * @param CartItem $cartItem
      * @return void
      */
-    public function updateItemInCart(CartId $cartId, CartItem $cartItem): void;
-
-    /**
-     * @param CartId $cartId
-     * @param CartItem $cartItem
-     * @return void
-     */
     public function removeItemFromCart(CartId $cartId, CartItem $cartItem): void;
 
     /**
@@ -51,4 +44,9 @@ interface CartServiceInterface
      * @return void
      */
     public function checkoutCart(CartId $cartId): void;
+
+    /**
+     * @return string
+     */
+    public function getResponseCart(): string;
 }
