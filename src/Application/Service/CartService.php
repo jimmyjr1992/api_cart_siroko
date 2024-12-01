@@ -104,16 +104,24 @@ class CartService implements CartServiceInterface
         $this->cartRepository->save($cart);
     }
 
-    public function removeItemFromCart(CartId $cartId, CartItem $cartItem): void
-    {
-        die('removeItemFromCart');
-        // TODO: Implement removeItemFromCart() method.
-    }
-
+    /**
+     * Obtiene el numero total de items que tiene el carrito
+     *
+     * @param CartId $cartId
+     * @return int
+     */
     public function getTotalItemCount(CartId $cartId): int
     {
-        die('getTotalItemCount');
-        // TODO: Implement getTotalItemCount() method.
+        $cart = $this->cartRepository->findById($this->currentCartId->__toString());
+        $cartItems = $cart->getCartItems()->getValues();
+
+        $totalItems = 0;
+
+        foreach ($cartItems as $cartItem) {
+            $totalItems += $cartItem->getQuantity();
+        }
+
+        return $totalItems;
     }
 
     public function checkoutCart(CartId $cartId): void
