@@ -9,3 +9,9 @@ update-item:
     path: /api/update_item
     controller: App\Infrastructure\Controller\UpdateItemController
     methods: PUT
+
+# borrar item al carrito
+delete-item:
+    path: /api/delete_item
+    controller: App\Infrastructure\Controller\DeleteItemController
+    methods: DELETE
