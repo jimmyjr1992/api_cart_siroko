@@ -49,6 +49,10 @@ class CartItem implements \JsonSerializable
 
     public function setProductId(int $productId): static
     {
+        if ($productId < 0) {
+            throw new \TypeError("ProductId should be a integer greater than 0.");
+        }
+
         $this->productId = $productId;
 
         return $this;
@@ -61,6 +65,10 @@ class CartItem implements \JsonSerializable
 
     public function setQuantity(int $quantity): static
     {
+        if ($quantity < 0) {
+            throw new \TypeError("Quantity should be a integer greater than 0.");
+        }
+
         $this->quantity = $quantity;
 
         return $this;
@@ -73,6 +81,10 @@ class CartItem implements \JsonSerializable
 
     public function setPrice(float $price): static
     {
+        if ($price < 0) {
+            throw new \TypeError("Price should be a float greater than 0.");
+        }
+
         $this->price = $price;
 
         return $this;
@@ -85,6 +97,10 @@ class CartItem implements \JsonSerializable
 
     public function setTotal(float $total): static
     {
+        if ($total < 0) {
+            throw new \TypeError("Total should be a float greater than 0.");
+        }
+
         $this->total = $total;
 
         return $this;
