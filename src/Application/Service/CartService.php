@@ -104,12 +104,6 @@ class CartService implements CartServiceInterface
         $this->cartRepository->save($cart);
     }
 
-    public function updateItemInCart(CartId $cartId, CartItem $cartItem): void
-    {
-        die('updateItemInCart');
-        // TODO: Implement updateItemInCart() method.
-    }
-
     public function removeItemFromCart(CartId $cartId, CartItem $cartItem): void
     {
         die('removeItemFromCart');
