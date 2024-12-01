@@ -17,4 +17,10 @@ interface CartItemServiceInterface
      * @return CartItem
      */
     public function updateCartItemFromData(array $data): CartItem;
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function deleteCartItemFromData(array $data): void;
 }
