@@ -28,13 +28,6 @@ interface CartServiceInterface
 
     /**
      * @param CartId $cartId
-     * @param CartItem $cartItem
-     * @return void
-     */
-    public function removeItemFromCart(CartId $cartId, CartItem $cartItem): void;
-
-    /**
-     * @param CartId $cartId
      * @return int
      */
     public function getTotalItemCount(CartId $cartId): int;
